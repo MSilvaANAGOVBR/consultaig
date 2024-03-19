@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Consultas IG</title>
+        <link rel="stylesheet" href="http://js.arcgis.com/3.23/dijit/themes/claro/claro.css">
+        <link rel="stylesheet" href="http://js.arcgis.com/3.23/esri/css/esri.css">
+        <link rel="stylesheet" href="css/menu_style.css">
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+        <script src="dojo_config.js"></script>
+        <script src="http://js.arcgis.com/3.23/"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+        <script src="js/widgets/Main_v1.js"></script>
+        <script type="text/javascript" src="js/menu_fn.js"></script>
+    </head>
+    <body class="claro">
+        <!--     <script src="http://portal.ana.gov.br/barragoverno/barraGov.js"></script> -->
+        <!-- <script src="http://portal.ana.gov.br/barraana/barraANA.js"></script> -->
+        <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+            <div id="BasemapToggle"></div>
+        </div>
+        <div id="con_feat_tabela" class="panel panel-primary">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span>  <b> Resultado da Consulta ao Plano de Informação: </b>
+                    </span>
+                    <button id="minimiza_tabela" class="btn btn-danger pull-right btn-xs">X</button>
+                </div>
+                <div class="panel-body">
+                    <table id="con_feat_tabela_resp" class="table table-hover">
+                    </table></div>
+                </div>
+            </div>
+            <div id="menu">
+                
+                <div id="titulo_menu">
+                    <span>Menu</span>
+                    <button id="bnt_minimiza">
+                    <a id="txt_minimiza">-</a>
+                    </button>
+                </div>
+                <div id="elementos_menu">
+                    <ul class="list-group">
+                        <li id="hidro_item" class="list-group-item">
+                            Localizar Coordenada
+                            <a id="hidro_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>></span>
+                            </a>
+                        </li>
+                        <li id="otto_item" class="list-group-item">
+                            Consultar Base Hidrográfica
+                            <br>
+                            pelo cód. Otto
+                            <a id="otto_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>></span>
+                            </a>
+                        </li>
+                        <li id="nomes_item" class="list-group-item">
+                            Consultar Municípios e
+                            <br>
+                            Nomes de Rios
+                            <a id="nomes_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>></span>
+                            </a>
+                        </li>
+                        <li id="features_item" class="list-group-item">
+                            Planos de Informação
+                            <a id="features_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>></span>
+                            </a>
+                        </li>
+                        <li id="features_item" class="list-group-item">
+                            Consultar
+                            <br>
+                            Planos de Informação
+                            <a id="con_feat_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>></span>
+                            </a>
+                        </li>
+                        <li id="legenda_item" class="list-group-item">
+                            Legendas
+                            <a id="legendas_bnt" href="#" class="btn pull-right btn-primary btn-xs">
+                                <span>+</span>
+                            </a>
+                            <div id="legendiv"></div>
+                        </li>
+                        <li id="coordenadas_item" class="list-group-item">
+                            <span id="info_coord"> <b>Lat.:-22,220257   Long.:-52,22512</b>
+                            </span>
+                        </li>
+                        <div id="logo_ana">
+                            <img align="middle" src="img/logo_ana-branco.gif">
+                        </div>
+                        <div id="versao" style="text-align: right; padding-top: 5px;">
+                            <i>v7.3</i>
+                        </div>
+                    </ul>
+                </div>
+                <div id="hidro_janela" class="panel panel-primary">
+                    <div class="panel-heading">- Insira a coordenada para aproximar:</div>
+                    <div class='coordenadas' class="panel-body">
+                        <form class="form-inline" role="form">
+                            <label>Latitude (GSM):</label>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="Lat_g" placeholder="g" min="-90" max="90" step="1" style='width:70px;'>º
+                                <input type="number" class="form-control" id="Lat_m" placeholder="m"  min="0" max="60" step="1" style='width:70px;'>'
+                            <input type="number" class="form-control" id="Lat_s" placeholder="s" min="0" max="60" step="1" style='width:70px;'>''</div>
+                            <label>Longitude (GSM):</label>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="Long_g" placeholder="g" style='width:70px;'>º
+                                <input type="number" class="form-control" id="Long_m" placeholder="m" style='width:70px;'>'
+                            <input type="number" class="form-control" id="Long_s" placeholder="s" style='width:70px;'>''</div>
+                        </form>
+                        <br>
+                        <form class="form-inline" role="form">
+                            <label>Latitude (º):</label>
+                            <div class="form-group">
+                                <input id='Lat' class="form-control" type="number" min="-50" max="10" value="-19.32240" step="0.01" maxlength="5"></div>
+                            </form>
+                            <form class="form-inline" role="form">
+                                <label>Longitude (º):</label>
+                                <div class="form-group">
+                                    <input id='Long' class="form-control" type="number" min="-90" max="0" value="-41.26882" step="0.01" maxlength="5"></div>
+                                </form>
+                                <br>
+                                <form class="form-inline" role="form">
+                                    <button id='Loca_Ponto' type="button" class="btn btn-primary btn-s">Localizar</button>
+                                    <button id='hidro_bt_Limpar' type="button" class="btn btn-primary">Limpar</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="otto_janela" class="panel panel-primary">
+                            <div class="panel-heading">- Consulta à Base Hidrográfica com base no código Otto Pfafstetter:</div>
+                            <div id='cod_otto' class="panel-body">
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label>Consulta:</label>            
+                                        <div class="form-group">
+                                            <select id="con_otto" name="con_bho" class="form-control">
+                                                <option value='-1' select>Selecione uma opção</option>
+                                                <option value='loc_trecho'>Localizar Trecho</option>
+                                                <option value='trecho_montante'>Identificar Trechos  Montante</option>
+                                                <option value='trecho_jusante'>Identificar Trechos  Jusante</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <label>Cód. Otto:</label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="ottobacia" value="456473" placeholder="48" style='width:100px;text-align: right;'>
+                                    </div>
+                                </form>
+                                <br>
+                                <button id='btn_con_otto' type="button" class="btn btn-primary btn-s">Executar</button>
+                                <button id='bt_otto_Limpar' type="button" class="btn btn-primary">Limpar</button>
+                            </div>
+  
+                        </div>
+                        <div id="nomes_janela" class="panel panel-primary">
+                            <div class="panel-heading">
+                                <span> <b>- Consulta Município:</b>
+                                <br>Selecione o Estado e o município para zoom no município;</span>
+                                <br>
+                                <span>
+                                    <b>- Consulta Nome de Rio:</b>
+                                    <br>
+                                    Escreva o nome do Rio que deseja procurar. Filtros possíveis: Domínio, Estado, Município;
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div id='nomes_consulta' class="panel-body">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">
+                                            <label>Domínio:</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <select id="Dominio" name="domi" class="form-control">
+                                                <option value='-1' select>Selecione o Domínio</option>
+                                                <option value='Federal'>Federal</option>
+                                                <option value='Estadual'>Estadual</option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <label>Estado:</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <select id="Estado" name="select_uf" class="form-control">
+                                                <option value='-1' select>Selecione o Estado</option>
+                                                <option value="AC">Acre</option>
+                                                <option value="AL">Alagoas</option>
+                                                <option value="AP">Amapá</option>
+                                                <option value="AM">Amazonas</option>
+                                                <option value="BA">Bahia</option>
+                                                <option value="CE">Ceará</option>
+                                                <option value="DF">Distrito Federal</option>
+                                                <option value="ES">Espírito Santo</option>
+                                                <option value="GO">Goiás</option>
+                                                <option value="MA">Maranhão</option>
+                                                <option value="MT">Mato Grosso</option>
+                                                <option value="MS">Mato Grosso do Sul</option>
+                                                <option value="MG">Minas Gerais</option>
+                                                <option value="PA">Pará</option>
+                                                <option value="PB">Paraíba</option>
+                                                <option value="PR">Paraná</option>
+                                                <option value="PE">Pernambuco</option>
+                                                <option value="PI">Piauí</option>
+                                                <option value="RJ">Rio de Janeiro</option>
+                                                <option value="RN">Rio Grande do Norte</option>
+                                                <option value="RS">Rio Grande do Sul</option>
+                                                <option value="RO">Rondônia</option>
+                                                <option value="RR">Roraima</option>
+                                                <option value="SC">Santa Catarina</option>
+                                                <option value="SP">São Paulo</option>
+                                                <option value="SE">Sergipe</option>
+                                                <option value="TO">Tocantins</option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <label>Município:</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <select id="Municipios" name="muni" class="form-control">
+                                                <option value='-1' select>Selecione o Município</option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <label>Nome do Rio:</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id='Nome_Rio' placeholder="* para pesquisar todos os trechos">
+                                        </div>
+                                        <div class="form-group">
+                                            <label><span style='font-size:11px;color:red;font-weight:normal;'>Nas pesquisas por nome existe diferenciação entre maiúsculas e minúsculas.</span></label>
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <div id='nomes_botoes'>
+                                        <button id='bt_Consult_Nomes' type="button" class="btn btn-primary">Consultar</button>
+                                        <button id='nomes_bt_Limpar' type="button" class="btn btn-primary">Limpar</button>
+                                    </div>
+                                    <br>
+                                    <table id="tab_Nome_Rios" class="table table-bordered table-hover">
+                                        <tr style="background-color: #C0C0C0;">
+                                            <th>Código do Rio</th>
+                                            <th>Nome Rio</th>
+                                            <th>Município</th>
+                                            <th>Estado</th>
+                                            <th>Domínio</th>
+                                        </tr>
+                                        <tr class="tab_zoom" style="cursor: pointer;">
+                                            <td class="cod"></td>
+                                            <td></td>
+                                            <td class="muni"></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    <span style='font-size:12px;color:red;'>*Clique no registro para aproximar.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="features_janela" class="panel panel-primary">
+                            <div class="panel-heading">Selecione uma camada:</div>
+                            <div id="features_janela_body" class="panel-body"></div>
+                        </div>
+                        <div id="con_feat_janela" class="panel panel-primary">
+                            <div class="panel-heading">Consulta Planos de Informação:</div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <select id="con_feat_select" class="form-control">
+                                        <option value='-1' select>Selecione Plano de Inf.</option>
+                                    </select>
+                                </div>
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label>Coluna:</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="con_feat_coluna" class="form-control">
+                                            <option value='-1' select>Selecione a Coluna</option>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="form-group">
+                                        <label>Operação:</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="con_feat_expressao" class="form-control">
+                                            <option select>
+                                            <pre>= </pre>
+                                        </option>
+                                        <option>
+                                        <pre> < </pre></option>
+                                        <option>
+                                        <pre> <= </pre></option>
+                                        <option>
+                                        <pre>></pre>
+                                    </option>
+                                    <option>
+                                    <pre>>= </pre>
+                                </option>
+                                <option>
+                                <pre>LIKE </pre>
+                            </option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label>Valor:</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id='con_feat_valor' value="7615493">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <button id='con_feat_executar' type="button" class="btn btn-primary btn-s">Consultar</button>
+                        <button id='con_bt_Limpar' type="button" class="btn btn-primary">Limpar</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label id="consulta_Plano_label"></label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="jan_Processando">
+        <img src="img/processando_2.GIF" alt="">
+    </div>
+</body>
+</html>
