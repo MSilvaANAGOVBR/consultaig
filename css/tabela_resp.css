@@ -1,0 +1,13 @@
+/*tabela_resp.css*/
+#con_feat_tabela_resp {
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, .1);
+}
+
+#con_feat_tabela_resp th {
+	font-size: 10px;
+}

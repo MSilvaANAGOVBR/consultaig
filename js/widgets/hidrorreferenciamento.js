@@ -64,7 +64,7 @@ define(["dojo/_base/declare",
         }
 
         function getSymbol() {
-            var symbol = new PictureMarkerSymbol('http://static.arcgis.com/images/Symbols/Shapes/GreenCircleLargeB.png', 30, 30);
+            var symbol = new PictureMarkerSymbol('https://static.arcgis.com/images/Symbols/Shapes/GreenCircleLargeB.png', 30, 30);
             return symbol;
         }
 

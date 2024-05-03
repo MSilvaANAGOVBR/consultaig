@@ -47,7 +47,7 @@ define(["dojo/_base/declare",
 
             if (feat.geometry.type == "point") {
                 var feat_cent = feat.geometry;
-                var symbol = new PictureMarkerSymbol('http://static.arcgis.com/images/Symbols/Shapes/YellowStarLargeB.png', 30, 30);
+                var symbol = new PictureMarkerSymbol('https://static.arcgis.com/images/Symbols/Shapes/YellowStarLargeB.png', 30, 30);
             } else {
                 var feat_cent = new Point({
                     "x": feat.geometry.getExtent()["xmin"],
@@ -67,6 +67,10 @@ define(["dojo/_base/declare",
             app.map.graphics.add(feat);
 
             app.map.centerAndZoom(feat_cent, 13);
+
+            setTimeout(function () {app.map.graphics.remove(feat);
+    		}, 2000);
+            
         }
 
         return declare("widgets.ConsultaPlanos", null, {
@@ -119,7 +123,7 @@ define(["dojo/_base/declare",
             },
             respostaConsulta: function(resp) {
                 $("#con_feat_tabela_resp").append(this.table_head);
-                // console.log(resp.features.length);
+                $("#consulta_Plano_label").text("");
                 if (resp.features.length == 0) {
                     $("#consulta_Plano_label").text("Nenhum resultado");
                     return;

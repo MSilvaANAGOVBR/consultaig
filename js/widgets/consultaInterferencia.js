@@ -98,10 +98,13 @@ define(["dojo/_base/declare",
                     '<tr><td style="text-align:left;"><b>Unidade de Conservação: </b></td><td style="text-align:right;">${Nome_UC}</td></tr>' +
                     '<tr><td style="text-align:left;"><b>Terra Indígena: </b></td><td style="text-align:right;">${Terra_Ind}</td></tr>' +
                     '<td colspan="2" style="font-weight: bold; text-align: center; background-color:#428bca">Informações de Regulação</td>' +
-                    '<tr><td style="text-align:left;"><b>Trecho Crítico: </b></td><td style="text-align:right;">${Trecho_Critico}</td></tr>' +
+                    '<tr><td style="text-align:left;"><b>Corpo Hídrico Nome: </b></td><td style="text-align:right;">${Nome_Corpo_Hidrico}</td></tr>' +
+                    '<tr><td style="text-align:left;"><b>Corpo Hídrico Tipo: </b></td><td style="text-align:right;">${Tipo_Corpo_Hidrico}</td></tr>' +
+                    '<tr><td style="text-align:left;"><b>Corpo Hídrico Crítico: </b></td><td style="text-align:right;">${Critico_Corpo_Hidrico}</td></tr>' +                    
                     '<tr><td style="text-align:left;"><b>Captação Vazão Máxima: </b></td><td style="text-align:right;">${Captacao_Maxima}</td></tr>' +
-                    '<tr><td style="text-align:left;"><b>Lançamento Vazão(m³/s) Máxima: </b></td><td style="text-align:right;">${Lancamento_Maxima}</td></tr>' +
+                    '<tr><td style="text-align:left;"><b>Lançamento Vazão Máxima: </b></td><td style="text-align:right;">${Lancamento_Maxima}</td></tr>' +
                     '<tr><td style="text-align:left;"><b>Lançamento Temp.(C°) Máxima: </b></td><td style="text-align:right;">${Lancamento_Temp_Maxima}</td></tr>' +
+                    '<tr><td style="text-align:left;"><b>Medida Uso Insignificante: </b></td><td style="text-align:right;">${Medida_Uso_Insignificante}</td></tr>' +                    
                     '<tr><td style="text-align:left;"><b>Comprometimento Qualitativo (%): </b></td><td style="text-align:right;">${Comp_quali}</td></tr>' +
                     '<tr><td style="text-align:left;"><b>Comprometimento Quantitativo (%): </b></td><td style="text-align:right;">${Comp_quanti}</td></tr>' +
                     '</td></tr></ table>';
@@ -148,10 +151,13 @@ define(["dojo/_base/declare",
                     "Nome_Regiao_Hidrografica": resp.nome_regiao_hidrografica,
                     "UF_Municipio": resp.uf_municipio,
                     // Regulação
-                    "Trecho_Critico": resp.trecho_critico,
+                    "Nome_Corpo_Hidrico": resp.nome_corpo_hidrico,
+                    "Tipo_Corpo_Hidrico": (resp.tipo_corpo_hidrico == 2) ? "Massa d'água": "Trecho",
+                    "Critico_Corpo_Hidrico": resp.trecho_critico, 
                     "Captacao_Maxima": resp.capt_max_uso_insig,
                     "Lancamento_Maxima": resp.lanc_max_uso_insig,
                     "Lancamento_Temp_Maxima": resp.lanc_max_te_insig,
+                    "Medida_Uso_Insignificante": resp.medida_uso_insig,
                     "Comp_quali": resp.comp_qualitativo,
                     "Comp_quanti": resp.comp_quantitativo,
                 };

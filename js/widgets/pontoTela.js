@@ -55,9 +55,9 @@ define(["dojo/_base/declare",
             getConteudo: function(){
                 var conteudo = "Latitude: <b>${Ycoord}</b><br>  Longitude: <b>${Xcoord}</b>" +
                     '<div id="janela_ponto" class="form-group">' +
-                    '<br>' +
-                    '<label>Consulta Informações do Trecho:<br>(<i>Hidrorreferenciamento</i>)</label>' +
-                    '<button id="pnt_bnt_hidrorref" type="button" class="btn btn-primary btn-xs">Consultar</button>' +
+                    /*'<br>' +
+                     '<label>Consulta Informações do Trecho:<br>(<i>Hidrorreferenciamento</i>)</label>' +
+                    '<button id="pnt_bnt_hidrorref" type="button" class="btn btn-primary btn-xs">Consultar</button>' + */
                     '<br><br><label>Consulta Coordenada:<br>(<i>Domínio Interferência</i>)</label>' +
                     '<br><button id="pnt_bnt_consdomin" type="button" class="btn btn-primary btn-xs">Consultar</button>' +
                     '<div id="jan_Processando">' +
@@ -71,7 +71,7 @@ define(["dojo/_base/declare",
                 return infoTemp;
             },
             getSymbol: function() {
-                var symbol = new PictureMarkerSymbol('http://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png', 30, 30);
+                var symbol = new PictureMarkerSymbol('https://static.arcgis.com/images/Symbols/Shapes/BlueCircleLargeB.png', 30, 30);
                 return symbol;
             },
             setInfoWindow: function() {

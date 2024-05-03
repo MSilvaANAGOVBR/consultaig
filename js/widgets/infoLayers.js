@@ -17,6 +17,7 @@ define(["dojo/_base/declare",
             _info_Espelhos: {},
             _info_Unid_Conserv: {},
             _info_Terra_Ind: {},
+			//_info_Estacao_Hidro: {},
             _info_municipios_ArcGIS: {},
             constructor: function() {
                 // Necessario informar a ordem
@@ -29,7 +30,8 @@ define(["dojo/_base/declare",
                 this.set_info_Espelhos(8);
                 this.set_info_Unid_Conserv(7);
                 this.set_info_Terra_Ind(6);
-                this.set_info_municipios_ArcGIS(5);
+				//this.set_info_Estacao_Hidro(5);
+                this.set_info_municipios_ArcGIS(4);
                 this.set_matriz_Layers();
             },
             set_matriz_Layers: function() {
@@ -44,6 +46,7 @@ define(["dojo/_base/declare",
                 this._lyrs.push(this.get_info_Reserv_NE());
                 this._lyrs.push(this.get_info_Unid_Conserv());
                 this._lyrs.push(this.get_info_Terra_Ind());
+				//this._lyrs.push(this.get_info_Estacao_Hidro());
                 this._lyrs.push(this.get_info_municipios_ArcGIS());
                 // console.log(this._lyrs);
             },
@@ -112,7 +115,7 @@ define(["dojo/_base/declare",
                     '<input id="' + id + '" type="checkbox" aria-label="..."  checked="checked"></span>' +
                     '<span class="form-control">' + titulo + '</span>' +
                     '</div>';
-                var url = 'https://www.snirh.gov.br/arcgis/rest/services/SGI/Base_Hidrografica_2013/MapServer/0';
+/*                 var url = 'https://www.snirh.gov.br/arcgis/rest/services/SGI/Base_Hidrografica_2013/MapServer/0';
                 console.log(url.slice(0, url.length - 2));
                 var conteudo = '';
                 // var lyr = new esri.layers.ArcGISDynamicMapServiceLayer(url.slice(0, url.length - 2), {
@@ -122,6 +125,13 @@ define(["dojo/_base/declare",
 
                 var lyr = new ArcGISTiledMapServiceLayer(url.slice(0, url.length - 2), {
                     displayLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                }); */
+
+                var url = 'https://www.snirh.gov.br/arcgis/rest/services/IG/Servicos_Base_IG/MapServer/1';
+                var conteudo = '';
+                var lyr = new esri.layers.FeatureLayer(url, {
+                    mode: FeatureLayer.MODE_ONDEMAND,
+                    outFields: ["*"]
                 });
 
                 this._info_BHO_Dominio = {
@@ -276,24 +286,28 @@ define(["dojo/_base/declare",
                 return this._info_Outorgas_Uso;
             },
             //-----------------------------------------            
-            // Outorgas CNARH 3
+            // Estações do Hidro --- Outorgas CNARH 3 - Mudei para Estações do Hidro até resolver o check_estacao_hidro para aparecer o pop-up.
             set_info_Cnarh3_Informada: function(ordem) {
                 var id = 'check_cnarh3_informada';
-                var titulo = 'Outorgas Informadas CNARH 3';
+                var titulo = 'Estações HIDRO';
                 var html = '<div class="input-group">' +
-                    '<span class="input-group-addon">' +
+                    '<span class="input-group-addon">' +	
                     '<input id="' + id + '" type="checkbox" aria-label="..." ></span>' +
                     '<span class="form-control">' + titulo + '</span>' +
                     '</div>';
-                var url = 'https://www.snirh.gov.br/arcgis/rest/services/IG/CNARH_3_REGLA_ADM/MapServer/1';
+                var url = 'https://portal1.snirh.gov.br/server/rest/services/Esta%C3%A7%C3%B5es_Hidrometeorol%C3%B3gicas_SNIRH/MapServer/0';
                 var conteudo = {
-                    "Código da Interf.": 'INT_CD',
-                    "Nome Interf.": 'INT_NM',
-                    "Tipo Interf.": 'TIN_DS',
-                    "Sub Tipo Interf.": 'TSU_DS',
-                    "Corpo Hídrico": 'TCH_DS',
-                    "Nome Corpo Hídrico": 'INT_NM_CORPOHIDRICO',
-                    "Domínio": 'INT_NU_DOMINIO'
+                    "Código Estação": 'Codigo',
+                    "Nome": 'Nome',
+                    "Rio": 'Rio',
+                    "Operando": 'Operando',
+                    "UF": 'UF',
+					"Municipio": 'Municipio',
+                    "Área de Drenagem": 'AreaDrenagem',
+                    "BaciaCodigo": 'BaciaCodigo',
+					"SubBaciaCodigo": 'SubBaciaCodigo',
+					"ResponsavelSigla": 'ResponsavelSigla',
+					"Operadora": 'Operadora'
                 };
                 var lyr = new esri.layers.FeatureLayer(url, {
                     mode: FeatureLayer.MODE_ONDEMAND,
@@ -445,68 +459,68 @@ define(["dojo/_base/declare",
                 };
             },           
             get_info_municipios_ArcGIS: function() {
-                // var url = "https://www.snirh.gov.br/arcgis/rest/services/IG/IG_ConsultaMunicipios/MapServer/0";
+                // var url = "http://www.snirh.gov.br/arcgis/rest/services/IG/IG_ConsultaMunicipios/MapServer/0";
                 return this._info_municipios_ArcGIS;
                 // return url;
             },
             //-----------------------------------------            
             // Consulta IntelGeo
             get_url_consulta_IntelGeo: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/intelgeo";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/intelgeo";
                 return url;
             },
              //-----------------------------------------            
             // Consulta area Montante
             get_url_consulta_Area_Montante: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/fac";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/fac";
                 return url;
             },           
             //-----------------------------------------            
             // Municipios
             get_url_consulta_municipios: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/municipio";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/municipio";
                 return url;
             },
             //-----------------------------------------            
             // Consulta Nomes
             get_url_consulta_nomes: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/nome_rio_municipio";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/nome_rio_municipio";
                 return url;
             },  
             //-----------------------------------------            
             // Consulta Trechos Montante
             get_url_consulta_trechos_montante: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/trechos_mont_afl";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/trechos_mont_afl";
                 return url;
             },    
             //-----------------------------------------            
             // Consulta Cursos d Agua Jusante
             get_url_consulta_trechos_jusante: function() {
-                var url = "https://ows.snirh.gov.br/ords/prd11/servicos/snirh_ig/trechos_jusante";
+                var url = "https://ows.snirh.gov.br/ords/servicos/snirh_ig/trechos_jusante";
                 return url;
             },                                
             //-----------------------------------------            
             // Municipios
             // get_url_municipios_Django: function() {
-            //     var url = "https://cosfi_servicos.agencia.gov.br/   /consultaMunicipio";
+            //     var url = "http://cosfi_servicos.agencia.gov.br/   /consultaMunicipio";
             //     return url;
             // },
             //-----------------------------------------            
             // Consulta Nomes
             // get_url_consulta_nomes_Django: function() {
-            //     var url = "https://cosfi_servicos.agencia.gov.br/webservices/consultaNomes";
+            //     var url = "http://cosfi_servicos.agencia.gov.br/webservices/consultaNomes";
             //     return url;
             // },
             //-----------------------------------------            
             // Consulta area Montante
             // get_url_consulta_Area_Montante_Django: function() {
-            //     var url = "https://cosfi_servicos.agencia.gov.br/webservices/consultaAreaMontante";
+            //     var url = "http://cosfi_servicos.agencia.gov.br/webservices/consultaAreaMontante";
             //     return url;
             // },
             //-----------------------------------------            
             // Consulta IntelGeo
             // get_url_consulta_IntelGeo_Django: function() {
-            //     var url = "https://cosfi_servicos.agencia.gov.br/webservices/consultaIntelGeo";
+            //     var url = "http://cosfi_servicos.agencia.gov.br/webservices/consultaIntelGeo";
             //     return url;
             // },
 
